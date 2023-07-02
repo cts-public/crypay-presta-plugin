@@ -32,11 +32,6 @@ class CrypayCallbackModuleFrontController extends ModuleFrontController
             $signature = $headers["XSignature"];
 
             $this->requestData = json_decode($this->request, true);
-            if (false === $this->checkIfRequestIsValid()) {
-                $error_message = 'CryPay Request: not valid request data';
-                $this->logError($error_message);
-                throw new Exception($error_message, 400);
-            }
 
             if ($this->requestData['type'] !== 'PAYMENT') {
                 $error_message = 'CryPay Request: not valid request type';
@@ -121,16 +116,6 @@ class CrypayCallbackModuleFrontController extends ModuleFrontController
         } else {
             $this->setTemplate('payment_callback.tpl');
         }
-    }
-
-    private function checkIfRequestIsValid()
-    {
-        return true;
-//        return true === Validate::isString($this->requestData['type'])
-//            && true === Validate::isString($this->requestData['state'])
-//            && true === Validate::isUnsignedFloat($this->requestData['amount'])
-//            && true === Validate::isString($this->requestData['currency'])
-//            && true === Validate::isString($this->requestData['variableSymbol']);
     }
 
     function get_ds_headers()
