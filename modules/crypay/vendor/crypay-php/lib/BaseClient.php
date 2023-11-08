@@ -36,7 +36,7 @@ class BaseClient implements ClientInterface
     /**
      * @var string default base URL for CryPay's API
      */
-    const DEFAULT_API_BASE = 'https://www.poc.crypay.com/api/v1';
+    const DEFAULT_API_BASE = 'https://crypay.com/api/v1';
 
     /**
      * @var string default base URL for CryPay's API
