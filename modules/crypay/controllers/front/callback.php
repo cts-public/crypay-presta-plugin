@@ -65,7 +65,7 @@ class CrypayCallbackModuleFrontController extends ModuleFrontController
             $token = $client->generateSignature($this->request, Configuration::get('CRYPAY_API_SECRET'));
 
             if (empty($signature) || strcmp($signature, $token) !== 0) {
-                $error_message = 'CryPay X-SIGNATURE: ' . $signature .';
+                $error_message = 'CryPay X-SIGNATURE: ' . $signature;
                 $this->logError($error_message, $cart_id);
                 throw new Exception($error_message, 400);
             }
