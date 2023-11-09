@@ -24,7 +24,7 @@ class Crypay extends PaymentModule
     {
         $this->name = 'crypay';
         $this->tab = 'payments_gateways';
-        $this->version = '1.0.1';
+        $this->version = '1.0.2';
         $this->author = 'CryPay.com';
         $this->is_eu_compatible = 1;
         $this->controllers = array('payment', 'redirect', 'callback', 'cancel', 'success');
@@ -58,7 +58,7 @@ class Crypay extends PaymentModule
 
         parent::__construct();
 
-        $this->displayName = $this->l('Accept Cryptocurrencies with CryPay');
+        $this->displayName = $this->l('CryPay');
         $this->description = $this->l('Accept Bitcoin and other cryptocurrencies as a payment method with CryPay');
         $this->confirmUninstall = $this->l('Are you sure you want to delete your details?');
 
@@ -245,7 +245,7 @@ class Crypay extends PaymentModule
 
     private function displayCrypay()
     {
-        return $this->display(__FILE__, 'infos.tpl');
+        return $this->display(__FILE__, 'crypay_infos.tpl');
     }
 
     private function displayCrypayInformation($renderForm)
@@ -254,7 +254,7 @@ class Crypay extends PaymentModule
         $this->context->controller->addCSS($this->_path . '/views/css/tabs.css', 'all');
         $this->context->controller->addJS($this->_path . '/views/js/javascript.js', 'all');
         $this->context->smarty->assign('form', $renderForm);
-        return $this->display(__FILE__, 'information.tpl');
+        return $this->display(__FILE__, 'crypay_information.tpl');
     }
 
     public function getContent()
@@ -294,7 +294,7 @@ class Crypay extends PaymentModule
             'this_path_bw' => $this->_path,
             'this_path_ssl' => Tools::getShopDomainSsl(true, true) . __PS_BASE_URI__ . 'modules/' . $this->name . '/',
         ));
-        return $this->display(__FILE__, 'payment.tpl');
+        return $this->display(__FILE__, 'crypay_payment.tpl');
     }
 
 
@@ -305,7 +305,7 @@ class Crypay extends PaymentModule
         }
 
         if (Tools::getValue('crypay_error') and Tools::getValue('crypay_error') == 1) {
-            return $this->fetch('module:crypay/views/templates/front/payment_cancel.tpl');
+            return $this->fetch('module:crypay/views/templates/front/crypay_payment_cancel.tpl');
         }
 
         if (_PS_VERSION_ < 1.7) {
@@ -333,7 +333,7 @@ class Crypay extends PaymentModule
                     'crypay_total_to_pay' => Tools::displayPrice($order->total_paid, $currency, false),
                 ));
 
-                return $this->display(__FILE__, 'payment_success_old.tpl');
+                return $this->display(__FILE__, 'crypay_payment_success.tpl');
             } else {
                 $this->context->smarty->assign(array(
                     'crypay_production' => (Configuration::get('CRYPAY_TEST')) == 0,
@@ -343,7 +343,7 @@ class Crypay extends PaymentModule
                     'crypay_total_to_pay' => Tools::displayPrice($order->total_paid, $currency, false),
                 ));
 
-                return $this->display(__FILE__, 'payment_cancel.tpl');
+                return $this->display(__FILE__, 'crypay_payment_cancel.tpl');
             }
         } else {
             $this->smarty->assign(array(
@@ -402,11 +402,11 @@ class Crypay extends PaymentModule
         $this->context->smarty->assign([
             'crypay_notification' => $this->context->link->getModuleLink($this->name, 'callback', array(), true),
         ]);
-        $notification = $this->context->smarty->fetch($this->local_path . 'views/templates/admin/notification.tpl');
+        $notification = $this->context->smarty->fetch($this->local_path . 'views/templates/admin/crypay_notification.tpl');
         $fields_form = array(
             'form' => array(
                 'legend' => array(
-                    'title' => $this->l('Accept Cryptocurrencies with CryPay'),
+                    'title' => $this->l('CryPay'),
                     'icon' => 'icon-bitcoin',
                 ),
                 'input' => array(
@@ -419,14 +419,14 @@ class Crypay extends PaymentModule
                     ),
                     array(
                         'type' => 'text',
-                        'label' => $this->l('CRYPAY_API_KEY'),
+                        'label' => $this->l('Your Api Key'),
                         'name' => 'CRYPAY_API_KEY',
                         'desc' => $this->l('Your Api Key (created on CryPay)'),
                         'required' => true,
                     ),
                     array(
                         'type' => 'text',
-                        'label' => $this->l('CRYPAY_API_SECRET'),
+                        'label' => $this->l('Your Api Secret'),
                         'name' => 'CRYPAY_API_SECRET',
                         'desc' => $this->l('Your Api Secret (created on CryPay)'),
                         'required' => true,

@@ -39,21 +39,20 @@ class CrypayCallbackModuleFrontController extends ModuleFrontController
                 throw new Exception($error_message, 400);
             }
 
-            $cart_id = (int)$this->requestData['variableSymbol'];
-            $order_id = Order::getOrderByCartId($cart_id);
+            $order_id = (int)$this->requestData['variableSymbol'];
             $order = new Order($order_id);
             $currency = new Currency($order->id_currency);
 
 
-            if (!$cart_id) {
+            if (!$order_id) {
                 $error_message = 'Shop order #' . $this->requestData['variableSymbol'] . ' does not exists';
-                $this->logError($error_message, $cart_id);
+                $this->logError($error_message, $order_id);
                 throw new Exception($error_message, 400);
             }
 
             if ($currency->iso_code != $this->requestData['currency']) {
                 $error_message = 'CryPay Currency: ' . $this->requestData['currency'] . ' is not valid';
-                $this->logError($error_message, $cart_id);
+                $this->logError($error_message, $order_id);
 
                 throw new Exception($error_message, 400);
             }
@@ -66,7 +65,7 @@ class CrypayCallbackModuleFrontController extends ModuleFrontController
 
             if (empty($signature) || strcmp($signature, $token) !== 0) {
                 $error_message = 'CryPay X-SIGNATURE: ' . $signature;
-                $this->logError($error_message, $cart_id);
+                $this->logError($error_message, $order_id);
                 throw new Exception($error_message, 400);
             }
 
@@ -77,7 +76,7 @@ class CrypayCallbackModuleFrontController extends ModuleFrontController
                         break;
                     } else {
                         $order_status = 'CRYPAY_INVALID';
-                        $this->logError('PS Orders Total does not match with Crypay Price Amount', $cart_id);
+                        $this->logError('PS Orders Total does not match with Crypay Price Amount', $order_id);
                     }
                     break;
                 case 'WAITING_FOR_PAYMENT':
@@ -98,7 +97,7 @@ class CrypayCallbackModuleFrontController extends ModuleFrontController
                 $history->id_order = $order->id;
                 $history->changeIdOrderState((int)Configuration::get($order_status), $order->id);
                 $history->addWithemail(true, array(
-                    'order_name' => $cart_id,
+                    'order_name' => $order_id,
                 ));
 
                 $this->response('OK');
@@ -112,9 +111,9 @@ class CrypayCallbackModuleFrontController extends ModuleFrontController
         }
 
         if (_PS_VERSION_ >= '1.7') {
-            $this->setTemplate('module:crypay/views/templates/front/payment_callback.tpl');
+            $this->setTemplate('module:crypay/views/templates/front/crypay_payment_callback.tpl');
         } else {
-            $this->setTemplate('payment_callback.tpl');
+            $this->setTemplate('crypay_payment_callback.tpl');
         }
     }
 
@@ -134,7 +133,7 @@ class CrypayCallbackModuleFrontController extends ModuleFrontController
         PrestaShopLogger::addLog($message, 1, null, 'Cart', $cart_id, true);
     }
 
-     private function logError($message, $cart_id = null)
+    private function logError($message, $cart_id = null)
     {
         PrestaShopLogger::addLog($message, 3, null, 'Cart', $cart_id, true);
     }

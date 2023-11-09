@@ -18,7 +18,7 @@
 *}
 <section>
     <p>
-        {l s='Cryptocurrency payments are processed by CryPay.com - over 1 tokens supported.' d='crypay' mod='crypay'}
+        {l s='Cryptocurrency payments are processed by CryPay.com.' d='crypay' mod='crypay'}
     </p>
     <div class="modal fade" id="bankwire-modal" tabindex="-1" role="dialog" aria-labelledby="Bankwire information" aria-hidden="true">
         <div class="modal-dialog" role="document">

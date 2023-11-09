@@ -51,17 +51,29 @@ class CrypayRedirectModuleFrontController extends ModuleFrontController
 
 
         if(!$id_order) {
-            $id_order = $this->module->currentOrder;
+            $this->module->validateOrder(
+                (int)$cart->id,
+                Configuration::get('CRYPAY_PENDING'),
+                $total,
+                $this->module->displayName,
+                null,
+                null,
+                (int)$currency->id,
+                false,
+                $customer->secure_key
+            );
+            $order = new Order($this->module->currentOrder);
+            $id_order = (int)$order->id;
         }
 
 
         $success_url = $this->context->link->getModuleLink('crypay', 'success', [
-            'cart_id' => $cart->id,
+            'id_order' => $id_order,
             'key' => $customer->secure_key
         ]);
 
         $fail = $this->context->link->getModuleLink('crypay', 'cancel', [
-            'cart_id' => $cart->id,
+            'id_order' => $id_order,
             'key' => $customer->secure_key
         ]);
 
@@ -69,7 +81,7 @@ class CrypayRedirectModuleFrontController extends ModuleFrontController
             "symbol" => $currency->iso_code,
             "amount" => $total,
             "currency" => $currency->iso_code,
-            "variableSymbol" => (string)$cart->id,
+            "variableSymbol" => (string)$id_order,
             'successUrl' => $success_url,
             'failUrl' => $fail,
         ];
@@ -85,20 +97,6 @@ class CrypayRedirectModuleFrontController extends ModuleFrontController
         }
         if (!isset($orderUrl) || !isset($orderUrl->shortLink) || !$orderUrl->shortLink) {
             Tools::redirect('index.php?controller=order&step=3');
-        }
-
-        if (!$id_order) {
-            $this->module->validateOrder(
-                (int)$cart->id,
-                Configuration::get('CRYPAY_PENDING'),
-                $total,
-                $this->module->displayName,
-                null,
-                null,
-                (int)$currency->id,
-                false,
-                $customer->secure_key
-            );
         }
 
         Tools::redirect($orderUrl->shortLink);

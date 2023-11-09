@@ -16,14 +16,14 @@
 * @copyright Since 2007 PrestaShop SA and Contributors
 * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
 *}
-{if $state == $paid_state}
-    <p>{l s='Your order on %s is complete.' mod='crypay'}
-        <br/><br/> <strong>{l s='Your order will be sent as soon as your payment is confirmed.' mod='crypay'}</strong>
-        <br/><br/>{l s='If you have questions, comments or concerns, please contact our' mod='crypay'} <a href="{$link->getPageLink('contact', true)|escape:'html':'UTF-8'}">{l s='customer support team. ' mod='crypay'}</a>
-    </p>
-{else}
-    <p class="warning">
-        {l s='We noticed a problem with your order. If you think this is an error, feel free to contact our' mod='crypay'}
-        <a href="{$link->getPageLink('contact', true)|escape:'html':'UTF-8'}">{l s='customer support team. ' mod='crypay'}</a>.
-    </p>
-{/if}
+<div class="row">
+    <div class="col-xs-12">
+        <p class="payment_module">
+            <a class="cheque" style="background-image: url('/modules/crypay/views/img/crypay-logo.png'); padding-left:150px;  background-size: 100px; background-position: 20px; 50%; background-repeat: no-repeat;" href="{$link->getModuleLink('crypay', 'payment')|escape:'htmlall':'UTF-8'}">
+
+                {l s='Bitcoin, Ethereum, Litecoin or other (via CryPay)' mod='crypay'}
+                <br><span>({l s='order processing will be faster' mod='crypay'})</span>
+            </a>
+        </p>
+    </div>
+</div>

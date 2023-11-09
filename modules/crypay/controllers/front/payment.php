@@ -33,6 +33,6 @@ class CrypayPaymentModuleFrontController extends ModuleFrontController
                 . __PS_BASE_URI__ . 'modules/' . $this->module->name . '/'
         ));
 
-        $this->setTemplate('payment_execution.tpl');
+        $this->setTemplate('crypay_payment_execution.tpl');
     }
 }

@@ -51,13 +51,13 @@
         <ul>
             <li>{l s='The gateway is fully automatic - set and forget it.' mod='crypay'}</li>
             <li>{l s='Payment amount is calculated using real-time exchange rates' mod='crypay'}</li>
-            <li>{l s='Your customers can select to pay with Bitcoin, Litecoin, Ethereum and 40+ other cryptocurrencies at checkout, while your payouts are in single currency of your choice.' mod='crypay'}</li>
+            <li>{l s='Your customers can select to pay with Bitcoin, Litecoin, Ethereum and other cryptocurrencies at checkout, while your payouts are in single currency of your choice.' mod='crypay'}</li>
             <li>
                 <a href="https://dev.crypay.com" target="_blank">
                     {l s='Sandbox environment' mod='crypay'}
                 </a> {l s='for testing with Testnet Bitcoin.' mod='crypay'}
             </li>
-            <li>{l s='Transparent pricing: flat 0.5% processing fee, no setup or recurring fees.' mod='crypay'}</li>
+            <li>{l s='Transparent pricing: no setup or recurring fees.' mod='crypay'}</li>
             <li>{l s='No chargebacks - guaranteed!' mod='crypay'}</li>
         </ul>
         </p>

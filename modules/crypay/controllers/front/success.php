@@ -56,7 +56,7 @@ class CrypaySuccessModuleFrontController extends ModuleFrontController
             ));
 
 
-            $this->setTemplate('module:crypay/views/templates/front/payment_success.tpl');
+            $this->setTemplate('module:crypay/views/templates/front/crypay_payment_success.tpl');
         }
     }
 }
