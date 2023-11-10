@@ -14,9 +14,8 @@ class CrypaySuccessModuleFrontController extends ModuleFrontController
         parent::initContent();
 
         $key = Tools::getValue('key');
-        $cart_id = Tools::getValue('cart_id');
-        $order_id = Order::getOrderByCartId($cart_id);
-        $order = new Order($order_id);
+        $id_order = Tools::getValue('id_order');
+        $order = new Order($id_order);
         
         $customer = new Customer((int)$order->id_customer);
         $currency = new Currency($order->id_currency);
