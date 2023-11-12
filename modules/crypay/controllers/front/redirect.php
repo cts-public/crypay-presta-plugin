@@ -50,7 +50,7 @@ class CrypayRedirectModuleFrontController extends ModuleFrontController
         $customer = new Customer($cart->id_customer);
 
 
-        if(!$id_order) {
+        if (!$id_order) {
             $this->module->validateOrder(
                 (int)$cart->id,
                 Configuration::get('CRYPAY_PENDING'),
@@ -86,6 +86,9 @@ class CrypayRedirectModuleFrontController extends ModuleFrontController
             'failUrl' => $fail,
         ];
 
+        //$params['email'] = $customer->email;
+        //$params['name'] = ($customer->company) ? $customer->comapny : $customer->firstname . ' ' . $customer->lastname;
+
         if ((Configuration::get('CRYPAY_TEST')) == 1) {
             $this->logInfo('send redirect params ' . json_encode($params));
         }
@@ -109,6 +112,6 @@ class CrypayRedirectModuleFrontController extends ModuleFrontController
 
     private function logError($message, $cart_id = 0)
     {
-        PrestaShopLogger::addLog('[create crypay order] '.$message, 3, null, 'Cart', $cart_id, true);
+        PrestaShopLogger::addLog('[create crypay order] ' . $message, 3, null, 'Cart', $cart_id, true);
     }
 }
