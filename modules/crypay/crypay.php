@@ -24,7 +24,7 @@ class Crypay extends PaymentModule
     {
         $this->name = 'crypay';
         $this->tab = 'payments_gateways';
-        $this->version = '1.0.3';
+        $this->version = '1.0.4';
         $this->author = 'CryPay.com';
         $this->is_eu_compatible = 1;
         $this->controllers = array('payment', 'redirect', 'callback', 'cancel', 'success');
