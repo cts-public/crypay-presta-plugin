@@ -10,7 +10,8 @@ $_MODULE['<{crypay}prestashop>crypay_a4c036112f246049651e4893d648415a'] = 'Эт�
 $_MODULE['<{crypay}prestashop>crypay_538dd9ed4eb59e2df7b92fbc45c0c808'] = 'Требуется API-ключ.';
 $_MODULE['<{crypay}prestashop>crypay_91da4eccc0678145f738f55572c6496e'] = 'Требуется API-секрет.';
 $_MODULE['<{crypay}prestashop>crypay_c888438d14855d7d96a2724ee9c306bd'] = 'Настройки обновлены';
-$_MODULE['<{crypay}prestashop>crypay_8ac745ef4bb38b53aadec394f5833c20'] = 'Адрес уведомлений';
+$_MODULE['<{crypay}prestashop>crypay_a3c5ed063dd5246b526114d2654087e3'] = 'Оплата криптовалютой';
+$_MODULE['<{crypay}prestashop>crypay_971aa940ab12731eefcaf9864ea239c4'] = 'Callback URL';
 $_MODULE['<{crypay}prestashop>crypay_702cde97afdbb15376c9700ac59324b4'] = 'Установите этое значение в настройках магазина платежной системы.';
 $_MODULE['<{crypay}prestashop>crypay_dff8178491ac3b77b020bd2c9fa3a6bd'] = 'Ваш API-ключ';
 $_MODULE['<{crypay}prestashop>crypay_72190d89c2460364a25989b3ca3976ad'] = 'Ваш API-ключ (созданный на CryPay)';
@@ -42,7 +43,7 @@ $_MODULE['<{crypay}prestashop>crypay_payment_execution_c884ed19483d45970c5bf23a6
 $_MODULE['<{crypay}prestashop>crypay_payment_execution_e2867a925cba382f1436d1834bb52a1c'] = 'Общая сумма вашего заказа составляет';
 $_MODULE['<{crypay}prestashop>crypay_payment_execution_1f87346a16cf80c372065de3c54c86d9'] = '(включая налоги)';
 $_MODULE['<{crypay}prestashop>crypay_payment_execution_848d8905f7ad99d6c8e724933ab3ab89'] = 'Вы будете перенаправлены на CryPay для оплаты криптовалютой.';
-$_MODULE['<{crypay}prestashop>crypay_payment_execution_edd87c9059d88fea45c0bd6384ce92b9'] = 'Пожалуйста, подтвердите ваш заказ, нажав "Подтверждаю мой заказ".';
+$_MODULE['<{crypay}prestashop>crypay_payment_execution_edd87c9059d88fea45c0bd6384ce92b9'] = 'Пожалуйста, подтвердите ваш заказ, нажав \"Подтверждаю мой заказ\".';
 $_MODULE['<{crypay}prestashop>crypay_payment_execution_569fd05bdafa1712c4f6be5b153b8418'] = 'Другие способы оплаты';
 $_MODULE['<{crypay}prestashop>crypay_payment_execution_46b9e3665f187c739c55983f757ccda0'] = 'Подтверждаю мой заказ';
 $_MODULE['<{crypay}prestashop>crypay_payment_success_60d07642a9d8d7fe2785759b666aa751'] = 'Ваш заказ успешно оплачен.';
@@ -55,6 +56,16 @@ $_MODULE['<{crypay}prestashop>crypay_payment_success_5d4710f9a8250b13164a82c94d5
 $_MODULE['<{crypay}prestashop>crypay_payment_success_a26ba4e08256fcc6bb108cadd1b3f44e'] = 'Сумма заказа';
 $_MODULE['<{crypay}prestashop>crypay_payment_success_3b80367e4cb96b5dce8a4dcd9dcc53f0'] = 'Если у вас есть вопросы или вам нужна дополнительная информация, пожалуйста, свяжитесь с нами по';
 $_MODULE['<{crypay}prestashop>crypay_payment_success_64430ad2835be8ad60c59e7d44e4b0b1'] = 'службе поддержки клиентов';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_60d07642a9d8d7fe2785759b666aa751'] = 'Ваш заказ успешно оплачен.';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_3f8cde6643c4ae2eb7051232c1441372'] = 'Тестовый режим, оплаты фактически не происходят.';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_2e875982609b38041a17f3c145acd38e'] = 'Спасибо за ваш платеж.';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_1f3153a268be0c8e670ec31e90b45ddb'] = 'Мы отправили вам подтверждение оплаты на ваш адрес электронной почты.';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_b231fa99545274e8e06da4fa1a7aac20'] = 'Ваш заказ будет обработан в кратчайшие сроки.';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_4049d979b8e6b7d78194e96c3208a5a5'] = 'Номер заказа';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_5d4710f9a8250b13164a82c94d5b00d1'] = 'Ссылка на заказ';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_a26ba4e08256fcc6bb108cadd1b3f44e'] = 'Сумма заказа';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_3b80367e4cb96b5dce8a4dcd9dcc53f0'] = 'Если у вас есть вопросы или вам нужна дополнительная информация, пожалуйста, свяжитесь с нами по';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_64430ad2835be8ad60c59e7d44e4b0b1'] = 'службе поддержки клиентов';
 $_MODULE['<{crypay}prestashop>crypay_confirmation_cde897d590e5d0e1bd31f128affb336c'] = 'Статус вашего платежа';
 $_MODULE['<{crypay}prestashop>crypay_confirmation_3f8cde6643c4ae2eb7051232c1441372'] = 'Тестовый режим, оплаты фактически не происходят.';
 $_MODULE['<{crypay}prestashop>crypay_confirmation_22801b935881c1971a0dd14e4575b3c1'] = 'У нас нет информации об успешном платеже. Вы можете повторить оплату, используя ссылку ниже.';
@@ -76,6 +87,7 @@ $_MODULE['<{crypay}prestashop>crypay_information_5d2c883480519b34541e33daf389e95
 $_MODULE['<{crypay}prestashop>crypay_information_cb59b87e00d11222bfd9159d0d23836f'] = 'Начало работы';
 $_MODULE['<{crypay}prestashop>crypay_information_4d687c3b2d08cd617eb0d045144840e8'] = 'Установите модуль CryPay в PrestaShop';
 $_MODULE['<{crypay}prestashop>crypay_information_625468eedbf9dc0a3e6a1d09aea7a23a'] = 'Посетите';
+$_MODULE['<{crypay}prestashop>crypay_information_53d4100af1ee3e59361011223edc1603'] = 'crypay.com';
 $_MODULE['<{crypay}prestashop>crypay_information_c0d77721ffc18fd7104868e6928e62e4'] = 'и создайте учетную запись';
 $_MODULE['<{crypay}prestashop>crypay_information_804e6eee6a093fc5ed98174c9785b63b'] = 'Зарегистрируйтесь на CryPay';
 $_MODULE['<{crypay}prestashop>crypay_information_98f770b0af18ca763421bac22b4b6805'] = 'Особенности';
@@ -84,6 +96,7 @@ $_MODULE['<{crypay}prestashop>crypay_information_b51801c6443452f0b30a242942e1047
 $_MODULE['<{crypay}prestashop>crypay_information_15eb28bb97271d9ae32d5744a4deda4d'] = 'Ваши клиенты могут выбирать оплату Bitcoin, Litecoin, Ethereum и другими криптовалютами при оформлении заказа, а выплаты будут производиться в выбранной вами единой валюте.';
 $_MODULE['<{crypay}prestashop>crypay_information_eef5a32598040e075bd432fa7933cd2c'] = 'Песочница для тестирования с Testnet Bitcoin.';
 $_MODULE['<{crypay}prestashop>crypay_information_4371d0a55fa3723bc46652f7542b67d8'] = 'Прозрачная ценообразование: отсутствие установочных или повторяющихся платежей.';
+$_MODULE['<{crypay}prestashop>crypay_information_0058657d7b3926cdd84143fda1b5c5e5'] = 'Никаких возвратных платежей – гарантировано!';
 $_MODULE['<{crypay}prestashop>crypay_information_e8603e542edc4469ef702b455612b8f6'] = 'Без возможности отмены платежа - гарантировано!';
 $_MODULE['<{crypay}prestashop>crypay_information_299ba989afa1bb8dcb4e31315d05333e'] = 'Вопросы? Свяжитесь с support@crypay.com !';
 $_MODULE['<{crypay}prestashop>crypay_infos_e862b26cf569ed3a5b9b6d4f1df977c6'] = 'Есть проблемы?';
@@ -94,4 +107,3 @@ $_MODULE['<{crypay}prestashop>crypay_intro_cf7e51096061fbe15e6a247d3eda35f2'] = 
 $_MODULE['<{crypay}prestashop>crypay_intro_08949a3ec29378a75f7f1756b7ccf9b6'] = 'Bitcoin, Ethereum, Litecoin или другие (через CryPay)';
 $_MODULE['<{crypay}prestashop>crypay_payment_08949a3ec29378a75f7f1756b7ccf9b6'] = 'Bitcoin, Ethereum, Litecoin или другие (через CryPay)';
 $_MODULE['<{crypay}prestashop>crypay_payment_fe185db299d11ae9391984a460309724'] = 'быстрая обработка заказа';
-

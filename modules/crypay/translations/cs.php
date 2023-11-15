@@ -2,7 +2,6 @@
 
 global $_MODULE;
 $_MODULE = array();
-
 $_MODULE['<{crypay}prestashop>crypay_35f2698d57e45f4cf7051a77f033748e'] = 'CryPay';
 $_MODULE['<{crypay}prestashop>crypay_f2594305033ceda5c6a54f287f904f03'] = 'Přijímejte platby v Bitcoinu a dalších kryptoměnách s CryPay';
 $_MODULE['<{crypay}prestashop>crypay_69a1a3ad8dd5da6db3c4da838a0cf9c7'] = 'Opravdu chcete smazat své údaje?';
@@ -11,7 +10,8 @@ $_MODULE['<{crypay}prestashop>crypay_a4c036112f246049651e4893d648415a'] = 'Tento
 $_MODULE['<{crypay}prestashop>crypay_538dd9ed4eb59e2df7b92fbc45c0c808'] = 'Je vyžadován API klíč.';
 $_MODULE['<{crypay}prestashop>crypay_91da4eccc0678145f738f55572c6496e'] = 'Je vyžadováno API secret.';
 $_MODULE['<{crypay}prestashop>crypay_c888438d14855d7d96a2724ee9c306bd'] = 'Nastavení aktualizováno';
-$_MODULE['<{crypay}prestashop>crypay_8ac745ef4bb38b53aadec394f5833c20'] = 'Oznámení oznámení';
+$_MODULE['<{crypay}prestashop>crypay_a3c5ed063dd5246b526114d2654087e3'] = 'Platba kryptoměnou';
+$_MODULE['<{crypay}prestashop>crypay_971aa940ab12731eefcaf9864ea239c4'] = 'Callback URL';
 $_MODULE['<{crypay}prestashop>crypay_702cde97afdbb15376c9700ac59324b4'] = 'Nastavte tuto hodnotu v nastavení obchodu platebního systému.';
 $_MODULE['<{crypay}prestashop>crypay_dff8178491ac3b77b020bd2c9fa3a6bd'] = 'Váš API klíč';
 $_MODULE['<{crypay}prestashop>crypay_72190d89c2460364a25989b3ca3976ad'] = 'Váš API klíč (vytvořený na CryPay)';
@@ -56,6 +56,16 @@ $_MODULE['<{crypay}prestashop>crypay_payment_success_5d4710f9a8250b13164a82c94d5
 $_MODULE['<{crypay}prestashop>crypay_payment_success_a26ba4e08256fcc6bb108cadd1b3f44e'] = 'Částka objednávky';
 $_MODULE['<{crypay}prestashop>crypay_payment_success_3b80367e4cb96b5dce8a4dcd9dcc53f0'] = 'Pokud máte nějaké otázky nebo potřebujete více informací, kontaktujte nás naší';
 $_MODULE['<{crypay}prestashop>crypay_payment_success_64430ad2835be8ad60c59e7d44e4b0b1'] = 'zákaznickou podporou';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_60d07642a9d8d7fe2785759b666aa751'] = 'Vaše objednávka byla úspěšně zaplacena.';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_3f8cde6643c4ae2eb7051232c1441372'] = 'Testovací režim, platby se ve skutečnosti neuskutečňují.';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_2e875982609b38041a17f3c145acd38e'] = 'Děkujeme za vaši platbu.';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_1f3153a268be0c8e670ec31e90b45ddb'] = 'Odeslali jsme vám potvrzení platby na váš e-mail.';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_b231fa99545274e8e06da4fa1a7aac20'] = 'Vaše objednávka bude zpracována co nejdříve.';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_4049d979b8e6b7d78194e96c3208a5a5'] = 'Číslo objednávky';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_5d4710f9a8250b13164a82c94d5b00d1'] = 'Referenční číslo objednávky';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_a26ba4e08256fcc6bb108cadd1b3f44e'] = 'Částka objednávky';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_3b80367e4cb96b5dce8a4dcd9dcc53f0'] = 'Pokud máte nějaké otázky nebo potřebujete více informací, kontaktujte nás naší';
+$_MODULE['<{crypay}prestashop>crypay_payment_success_old_64430ad2835be8ad60c59e7d44e4b0b1'] = 'zákaznickou podporou';
 $_MODULE['<{crypay}prestashop>crypay_confirmation_cde897d590e5d0e1bd31f128affb336c'] = 'Stav vaší platby';
 $_MODULE['<{crypay}prestashop>crypay_confirmation_3f8cde6643c4ae2eb7051232c1441372'] = 'Testovací režim, platby se ve skutečnosti neuskutečňují.';
 $_MODULE['<{crypay}prestashop>crypay_confirmation_22801b935881c1971a0dd14e4575b3c1'] = 'Nemáme informace o úspěšném provedení platby. Platbu můžete zopakovat pomocí následujícího odkazu.';
@@ -77,6 +87,7 @@ $_MODULE['<{crypay}prestashop>crypay_information_5d2c883480519b34541e33daf389e95
 $_MODULE['<{crypay}prestashop>crypay_information_cb59b87e00d11222bfd9159d0d23836f'] = 'Začínáme';
 $_MODULE['<{crypay}prestashop>crypay_information_4d687c3b2d08cd617eb0d045144840e8'] = 'Nainstalujte modul CryPay na PrestaShop';
 $_MODULE['<{crypay}prestashop>crypay_information_625468eedbf9dc0a3e6a1d09aea7a23a'] = 'Navštivte';
+$_MODULE['<{crypay}prestashop>crypay_information_53d4100af1ee3e59361011223edc1603'] = 'crypay.com';
 $_MODULE['<{crypay}prestashop>crypay_information_c0d77721ffc18fd7104868e6928e62e4'] = 'a vytvořte si účet';
 $_MODULE['<{crypay}prestashop>crypay_information_804e6eee6a093fc5ed98174c9785b63b'] = 'Registrovat se na CryPay';
 $_MODULE['<{crypay}prestashop>crypay_information_98f770b0af18ca763421bac22b4b6805'] = 'Funkce';
@@ -96,5 +107,3 @@ $_MODULE['<{crypay}prestashop>crypay_intro_cf7e51096061fbe15e6a247d3eda35f2'] = 
 $_MODULE['<{crypay}prestashop>crypay_intro_08949a3ec29378a75f7f1756b7ccf9b6'] = 'Bitcoin, Ethereum, Litecoin nebo jiné (pomocí CryPay)';
 $_MODULE['<{crypay}prestashop>crypay_payment_08949a3ec29378a75f7f1756b7ccf9b6'] = 'Bitcoin, Ethereum, Litecoin nebo jiné (pomocí CryPay)';
 $_MODULE['<{crypay}prestashop>crypay_payment_fe185db299d11ae9391984a460309724'] = 'zpracování objednávky bude rychlejší';
-
-
