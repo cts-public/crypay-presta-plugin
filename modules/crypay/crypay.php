@@ -24,7 +24,7 @@ class Crypay extends PaymentModule
     {
         $this->name = 'crypay';
         $this->tab = 'payments_gateways';
-        $this->version = '1.0.4';
+        $this->version = '1.0.5';
         $this->author = 'CryPay.com';
         $this->is_eu_compatible = 1;
         $this->controllers = array('payment', 'redirect', 'callback', 'cancel', 'success');
@@ -333,7 +333,7 @@ class Crypay extends PaymentModule
                     'crypay_total_to_pay' => Tools::displayPrice($order->total_paid, $currency, false),
                 ));
 
-                return $this->display(__FILE__, 'crypay_payment_success.tpl');
+                return $this->display(__FILE__, 'crypay_payment_success_old.tpl');
             } else {
                 $this->context->smarty->assign(array(
                     'crypay_production' => (Configuration::get('CRYPAY_TEST')) == 0,
@@ -371,7 +371,7 @@ class Crypay extends PaymentModule
         }
 
         $newOption = new PrestaShop\PrestaShop\Core\Payment\PaymentOption();
-        $newOption->setCallToActionText('Bitcoin, Ethereum, Litecoin or other')
+        $newOption->setCallToActionText($this->l('Crypto payment'))
             ->setAction($this->context->link->getModuleLink($this->name, 'redirect', array(), true))
             ->setAdditionalInformation(
                 $this->context->smarty->fetch('module:crypay/views/templates/hook/crypay_intro.tpl')
@@ -412,7 +412,7 @@ class Crypay extends PaymentModule
                 'input' => array(
                     array(
                         'type' => 'html',
-                        'label' => $this->l('Notification address'),
+                        'label' => $this->l('Callback URL'),
                         'html_content' => $notification,
                         'desc' => $this->l('Set this value in the payment system store settings.'),
                         'name' => 'CRYPAY_NOTIFICATION',
