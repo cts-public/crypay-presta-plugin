@@ -46,11 +46,11 @@ class CrypayRedirectModuleFrontController extends ModuleFrontController
             $key = Tools::getValue('key');
             $cart = Cart::getCartByOrderId($id_order);
             if (_PS_VERSION_ < '1.7') {
-                $order = new Order((int) $id_order);
+                $order = new Order((int)$id_order);
             } else {
-                $order = Order::getByCartId((int) $cart->id);
+                $order = Order::getByCartId((int)$cart->id);
             }
-            $customer = new Customer((int) $order->id_customer);
+            $customer = new Customer((int)$order->id_customer);
             if ($key != $customer->secure_key) {
                 echo 'Access denied for this operation';
                 exit;
@@ -63,7 +63,7 @@ class CrypayRedirectModuleFrontController extends ModuleFrontController
             Tools::redirect('index.php?controller=order');
         }
 
-        $total = (float) number_format($cart->getOrderTotal(true, Cart::BOTH), 2, '.', '');
+        $total = (float)number_format($cart->getOrderTotal(true, Cart::BOTH), 2, '.', '');
         $currency = Context::getContext()->currency;
 
         $apiKey = Configuration::get('CRYPAY_API_KEY');
@@ -76,18 +76,18 @@ class CrypayRedirectModuleFrontController extends ModuleFrontController
 
         if (!$id_order) {
             $this->module->validateOrder(
-                (int) $cart->id,
+                (int)$cart->id,
                 Configuration::get('CRYPAY_PENDING'),
                 $total,
                 $this->module->displayName,
                 null,
                 null,
-                (int) $currency->id,
+                (int)$currency->id,
                 false,
                 $customer->secure_key
             );
             $order = new Order($this->module->currentOrder);
-            $id_order = (int) $order->id;
+            $id_order = (int)$order->id;
         }
 
         $success_url = $this->context->link->getModuleLink('crypay', 'success', [
@@ -104,17 +104,18 @@ class CrypayRedirectModuleFrontController extends ModuleFrontController
             'symbol' => $currency->iso_code,
             'amount' => $total,
             'currency' => $currency->iso_code,
-            'variableSymbol' => (string) $id_order,
+            'variableSymbol' => (string)$id_order,
             'successUrl' => $success_url,
             'failUrl' => $fail,
         ];
 
-        /*
-        $params['email'] = $customer->email;
-        $params['name'] = ($customer->company) ? $customer->company : $customer->firstname . ' ' . $customer->lastname;
-        */
+        if ($environment) {
+            $params['email'] = $customer->email;
+            $params['name'] = ($customer->company) ? $customer->company : $customer->firstname . ' ' . $customer->lastname;
+            $params['language'] = Language::getIsoById((int) $cart->id_lang);
+        }
 
-        if (Configuration::get('CRYPAY_TEST') == 1) {
+        if ($environment) {
             $this->logInfo('send redirect params ' . json_encode($params));
         }
 
