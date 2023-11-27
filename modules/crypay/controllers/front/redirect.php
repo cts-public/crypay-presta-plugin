@@ -108,7 +108,7 @@ class CrypayRedirectModuleFrontController extends ModuleFrontController
 
         /*
         $params['email'] = $customer->email;
-        $params['name'] = ($customer->company) ? $customer->comapny : $customer->firstname . ' ' . $customer->lastname;
+        $params['name'] = ($customer->company) ? $customer->company : $customer->firstname . ' ' . $customer->lastname;
         */
 
         if (Configuration::get('CRYPAY_TEST') == 1) {

@@ -28,7 +28,7 @@ class Crypay extends PaymentModule
         $this->is_eu_compatible = 1;
         $this->controllers = ['payment', 'redirect', 'callback', 'cancel', 'success'];
         $this->ps_versions_compliancy = ['min' => '1.6', 'max' => _PS_VERSION_];
-        $this->module_key = '55a8f661218f598cd646c4e27ec9fc4c';
+        $this->module_key = '8173070fca98275a284e1e694b09dc5b';
 
         $this->currencies = true;
         $this->currencies_mode = 'checkbox';
