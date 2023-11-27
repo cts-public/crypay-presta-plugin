@@ -1,10 +1,32 @@
 <?php
 /**
- * @author    CryPay <info@crypay.com>
- * @copyright 2023 CryPay
- * @license   https://www.opensource.org/licenses/MIT  MIT License
+ * 2007-2015 PrestaShop
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ * @author    PrestaShop SA <contact@prestashop.com>
+ * @copyright 2007-2015 PrestaShop SA
+ * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ *  International Registered Trademark & Property of PrestaShop SA
  */
 
+/**
+ * CrypaySuccessModuleFrontController
+ */
 class CrypaySuccessModuleFrontController extends ModuleFrontController
 {
     public $ssl = true;
@@ -16,18 +38,18 @@ class CrypaySuccessModuleFrontController extends ModuleFrontController
         $key = Tools::getValue('key');
         $id_order = Tools::getValue('id_order');
         $order = new Order($id_order);
-        
-        $customer = new Customer((int)$order->id_customer);
+
+        $customer = new Customer((int) $order->id_customer);
         $currency = new Currency($order->id_currency);
 
         if ($key != $customer->secure_key) {
-            die('Access denied for this operation');
-            Tools::redirect('index.php');
+            echo 'Access denied for this operation';
+            exit;
         }
 
         if ($order->module != $this->module->name) {
-            die('Access denied for this operation');
-            Tools::redirect('index.php');
+            echo 'Access denied for this operation';
+            exit;
         }
 
         if (_PS_VERSION_ < '1.7') {
@@ -35,25 +57,22 @@ class CrypaySuccessModuleFrontController extends ModuleFrontController
                 'order-confirmation',
                 true,
                 null,
-                array(
+                [
                     'key' => $customer->secure_key,
-                    'id_cart' => (int)$order->id_cart,
-                    'id_module' => (int)$this->module->id,
+                    'id_cart' => (int) $order->id_cart,
+                    'id_module' => (int) $this->module->id,
                     'id_order' => $order->id,
-                )
+                ]
             );
 
-            //   Tools::redirectLink($url_confirmation . '&crypay_error=1');
             Tools::redirectLink($url_confirmation);
         } else {
-
-            $this->context->smarty->assign(array(
-                'crypay_production' => (Configuration::get('CRYPAY_TEST')) == 0,
+            $this->context->smarty->assign([
+                'crypay_production' => Configuration::get('CRYPAY_TEST') == 0,
                 'crypay_id_order' => $order->id,
                 'crypay_reference_order' => $order->reference,
                 'crypay_total_to_pay' => Tools::displayPrice($order->total_paid, $currency, false),
-            ));
-
+            ]);
 
             $this->setTemplate('module:crypay/views/templates/front/crypay_payment_success.tpl');
         }

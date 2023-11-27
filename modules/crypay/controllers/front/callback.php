@@ -1,12 +1,34 @@
 <?php
 /**
- * @author    CryPay <info@crypay.com>
- * @copyright 2023 CryPay
- * @license   https://www.opensource.org/licenses/MIT  MIT License
+ * 2007-2015 PrestaShop
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ * @author    PrestaShop SA <contact@prestashop.com>
+ * @copyright 2007-2015 PrestaShop SA
+ * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ *  International Registered Trademark & Property of PrestaShop SA
  */
 
-require_once(_PS_MODULE_DIR_ . '/crypay/vendor/crypay-php/init.php');
+require_once _PS_MODULE_DIR_ . '/crypay/vendor/crypay-php/init.php';
 
+/**
+ * CrypayCallbackModuleFrontController
+ */
 class CrypayCallbackModuleFrontController extends ModuleFrontController
 {
     public $ssl = true;
@@ -19,34 +41,37 @@ class CrypayCallbackModuleFrontController extends ModuleFrontController
     public function postProcess()
     {
         parent::postProcess();
+
         try {
             $this->request = Tools::file_get_contents('php://input');
             $this->logInfo('CryPay reportPayload: ' . $this->request);
             $headers = $this->get_ds_headers();
-            if (!array_key_exists("XSignature", $headers)) {
+            if (!array_key_exists('XSignature', $headers)) {
                 $error_message = 'CryPay X-SIGNATURE: not found';
                 $this->logError($error_message);
+
                 throw new Exception($error_message, 400);
             }
 
-            $signature = $headers["XSignature"];
+            $signature = $headers['XSignature'];
 
             $this->requestData = json_decode($this->request, true);
 
             if ($this->requestData['type'] !== 'PAYMENT') {
                 $error_message = 'CryPay Request: not valid request type';
                 $this->logError($error_message);
+
                 throw new Exception($error_message, 400);
             }
 
-            $order_id = (int)$this->requestData['variableSymbol'];
+            $order_id = (int) $this->requestData['variableSymbol'];
             $order = new Order($order_id);
             $currency = new Currency($order->id_currency);
-
 
             if (!$order_id) {
                 $error_message = 'Shop order #' . $this->requestData['variableSymbol'] . ' does not exists';
                 $this->logError($error_message, $order_id);
+
                 throw new Exception($error_message, 400);
             }
 
@@ -58,7 +83,7 @@ class CrypayCallbackModuleFrontController extends ModuleFrontController
             }
 
             $apiKey = Configuration::get('CRYPAY_API_KEY');
-            $environment = (Configuration::get('CRYPAY_TEST')) == 1;
+            $environment = Configuration::get('CRYPAY_TEST') == 1;
             $client = new \CryPay\Client($apiKey, $environment);
 
             $token = $client->generateSignature($this->request, Configuration::get('CRYPAY_API_SECRET'));
@@ -66,27 +91,32 @@ class CrypayCallbackModuleFrontController extends ModuleFrontController
             if (empty($signature) || strcmp($signature, $token) !== 0) {
                 $error_message = 'CryPay X-SIGNATURE: ' . $signature;
                 $this->logError($error_message, $order_id);
+
                 throw new Exception($error_message, 400);
             }
 
             switch ($this->requestData['state']) {
                 case 'SUCCESS':
-                    if (((float)$order->getOrdersTotalPaid()) == ((float)$this->requestData['amount'])) {
+                    if (((float) $order->getOrdersTotalPaid()) == ((float) $this->requestData['amount'])) {
                         $order_status = 'PS_OS_PAYMENT';
+
                         break;
-                    } else {
-                        $order_status = 'CRYPAY_INVALID';
-                        $this->logError('PS Orders Total does not match with Crypay Price Amount', $order_id);
                     }
+                    $order_status = 'CRYPAY_INVALID';
+                    $this->logError('PS Orders Total does not match with Crypay Price Amount', $order_id);
+
                     break;
                 case 'WAITING_FOR_PAYMENT':
                     $order_status = 'CRYPAY_PENDING';
+
                     break;
                 case 'WAITING_FOR_CONFIRMATION':
                     $order_status = 'CRYPAY_CONFIRMING';
+
                     break;
                 case 'EXPIRED':
                     $order_status = 'CRYPAY_EXPIRED';
+
                     break;
                 default:
                     $order_status = false;
@@ -95,17 +125,15 @@ class CrypayCallbackModuleFrontController extends ModuleFrontController
             if ($order_status && Configuration::get($order_status) != $order->current_state && $order->current_state != Configuration::get('PS_OS_PAYMENT')) {
                 $history = new OrderHistory();
                 $history->id_order = $order->id;
-                $history->changeIdOrderState((int)Configuration::get($order_status), $order->id);
-                $history->addWithemail(true, array(
+                $history->changeIdOrderState((int) Configuration::get($order_status), $order->id);
+                $history->addWithemail(true, [
                     'order_name' => $order_id,
-                ));
+                ]);
 
                 $this->response('OK');
-
             } else {
                 $this->response('Order Status ' . $this->requestData['state'] . ' not implemented');
             }
-
         } catch (Exception $e) {
             $this->response($e->getMessage(), $e->getCode());
         }
@@ -117,14 +145,15 @@ class CrypayCallbackModuleFrontController extends ModuleFrontController
         }
     }
 
-    function get_ds_headers()
+    public function get_ds_headers()
     {
-        $headers = array();
+        $headers = [];
         foreach ($_SERVER as $key => $value) {
             if (strpos($key, 'HTTP_') === 0) {
                 $headers[str_replace(' ', '', ucwords(str_replace('_', ' ', strtolower(substr($key, 5)))))] = $value;
             }
         }
+
         return $headers;
     }
 
@@ -148,6 +177,6 @@ class CrypayCallbackModuleFrontController extends ModuleFrontController
             echo json_encode(['status' => 'error', 'error' => $message]);
         }
 
-        die();
+        exit;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 global $_MODULE;
-$_MODULE = array();
+$_MODULE = [];
 $_MODULE['<{crypay}prestashop>crypay_35f2698d57e45f4cf7051a77f033748e'] = 'CryPay';
 $_MODULE['<{crypay}prestashop>crypay_f2594305033ceda5c6a54f287f904f03'] = 'Přijímejte platby v Bitcoinu a dalších kryptoměnách s CryPay';
 $_MODULE['<{crypay}prestashop>crypay_69a1a3ad8dd5da6db3c4da838a0cf9c7'] = 'Opravdu chcete smazat své údaje?';

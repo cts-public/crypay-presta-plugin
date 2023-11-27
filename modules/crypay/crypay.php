@@ -4,17 +4,16 @@
  * @copyright 2023 CryPay
  * @license   https://www.opensource.org/licenses/MIT  MIT License
  */
-
 if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_ . '/crypay/vendor/crypay-php/init.php');
+require_once _PS_MODULE_DIR_ . '/crypay/vendor/crypay-php/init.php';
 
 class Crypay extends PaymentModule
 {
     private $html = '';
-    private $postErrors = array();
+    private $postErrors = [];
 
     public $api_key;
     public $api_secret;
@@ -27,8 +26,8 @@ class Crypay extends PaymentModule
         $this->version = '1.0.5';
         $this->author = 'CryPay.com';
         $this->is_eu_compatible = 1;
-        $this->controllers = array('payment', 'redirect', 'callback', 'cancel', 'success');
-        $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
+        $this->controllers = ['payment', 'redirect', 'callback', 'cancel', 'success'];
+        $this->ps_versions_compliancy = ['min' => '1.6', 'max' => _PS_VERSION_];
         $this->module_key = '55a8f661218f598cd646c4e27ec9fc4c';
 
         $this->currencies = true;
@@ -37,11 +36,11 @@ class Crypay extends PaymentModule
         $this->bootstrap = true;
 
         $config = Configuration::getMultiple(
-            array(
+            [
                 'CRYPAY_API_KEY',
                 'CRYPAY_API_SECRET',
                 'CRYPAY_TEST',
-            )
+            ]
         );
 
         if (!empty($config['CRYPAY_API_KEY'])) {
@@ -110,28 +109,28 @@ class Crypay extends PaymentModule
         if ($order_pending->add()) {
             copy(
                 _PS_ROOT_DIR_ . '/modules/crypay/logo.png',
-                _PS_ROOT_DIR_ . '/img/os/' . (int)$order_pending->id . '.gif'
+                _PS_ROOT_DIR_ . '/img/os/' . (int) $order_pending->id . '.gif'
             );
         }
 
         if ($order_expired->add()) {
             copy(
                 _PS_ROOT_DIR_ . '/modules/crypay/logo.png',
-                _PS_ROOT_DIR_ . '/img/os/' . (int)$order_expired->id . '.gif'
+                _PS_ROOT_DIR_ . '/img/os/' . (int) $order_expired->id . '.gif'
             );
         }
 
         if ($order_confirming->add()) {
             copy(
                 _PS_ROOT_DIR_ . '/modules/crypay/logo.png',
-                _PS_ROOT_DIR_ . '/img/os/' . (int)$order_confirming->id . '.gif'
+                _PS_ROOT_DIR_ . '/img/os/' . (int) $order_confirming->id . '.gif'
             );
         }
 
         if ($order_invalid->add()) {
             copy(
                 _PS_ROOT_DIR_ . '/modules/crypay/logo.png',
-                _PS_ROOT_DIR_ . '/img/os/' . (int)$order_invalid->id . '.gif'
+                _PS_ROOT_DIR_ . '/img/os/' . (int) $order_invalid->id . '.gif'
             );
         }
 
@@ -155,44 +154,43 @@ class Crypay extends PaymentModule
     public function hookDisplayOrderDetail($params)
     {
         $order = $params['order'];
-        if ($order->module != $this->name)
+        if ($order->module != $this->name) {
             return;
+        }
 
-        $allowed_state = array(
+        $allowed_state = [
             Configuration::get('CRYPAY_PENDING'),
             Configuration::get('CRYPAY_EXPIRED'),
             Configuration::get('CRYPAY_INVALID'),
-        );
+        ];
 
         if (in_array($order->current_state, $allowed_state)) {
             $context = Context::getContext();
             $sandbox = (Configuration::get('CRYPAY_TEST') == 1 ? true : false);
-            $customer = new Customer((int)$order->id_customer);
+            $customer = new Customer((int) $order->id_customer);
             $currency = new Currency($order->id_currency);
 
-            //$url_payment = $this->getLinkPaymentOnShop($params['order']->id);
+            // $url_payment = $this->getLinkPaymentOnShop($params['order']->id);
 
             $payment_url = $this->context->link->getModuleLink('crypay', 'redirect', [
                 'id_order' => $order->id,
-                'key' => $customer->secure_key
+                'key' => $customer->secure_key,
             ]);
 
-            $this->smarty->assign(array(
+            $this->smarty->assign([
                 'crypay_sandbox' => $sandbox,
                 'crypay_url_payment' => $payment_url,
                 'crypay_id_order' => $order->id,
                 'crypay_reference_order' => $order->reference,
                 'crypay_total_to_pay' => Tools::displayPrice($order->total_paid, $currency, false),
-            ));
+            ]);
 
             if (_PS_VERSION_ < 1.7) {
                 return $this->display(__FILE__, 'crypay_payment.tpl');
-            } else {
-                return $this->fetch('module:crypay/views/templates/front/crypay_payment.tpl');
             }
-        }
 
-        return;
+            return $this->fetch('module:crypay/views/templates/front/crypay_payment.tpl');
+        }
     }
 
     public function uninstall()
@@ -202,16 +200,14 @@ class Crypay extends PaymentModule
         $order_state_confirming = new OrderState(Configuration::get('CRYPAY_CONFIRMING'));
         $order_state_invalid = new OrderState(Configuration::get('CRYPAY_INVALID'));
 
-        return (
-            Configuration::deleteByName('CRYPAY_API_KEY') &&
-            Configuration::deleteByName('CRYPAY_API_SECRET') &&
-            Configuration::deleteByName('CRYPAY_TEST') &&
-            $order_state_pending->delete() &&
-            $order_state_expired->delete() &&
-            $order_state_confirming->delete() &&
-            $order_state_invalid &&
-            parent::uninstall()
-        );
+        return Configuration::deleteByName('CRYPAY_API_KEY')
+            && Configuration::deleteByName('CRYPAY_API_SECRET')
+            && Configuration::deleteByName('CRYPAY_TEST')
+            && $order_state_pending->delete()
+            && $order_state_expired->delete()
+            && $order_state_confirming->delete()
+            && $order_state_invalid
+            && parent::uninstall();
     }
 
     private function postValidation()
@@ -254,6 +250,7 @@ class Crypay extends PaymentModule
         $this->context->controller->addCSS($this->_path . '/views/css/tabs.css', 'all');
         $this->context->controller->addJS($this->_path . '/views/js/javascript.js', 'all');
         $this->context->smarty->assign('form', $renderForm);
+
         return $this->display(__FILE__, 'crypay_information.tpl');
     }
 
@@ -289,14 +286,14 @@ class Crypay extends PaymentModule
         if (!$this->checkCurrency($params['cart'])) {
             return;
         }
-        $this->smarty->assign(array(
+        $this->smarty->assign([
             'this_path' => $this->_path,
             'this_path_bw' => $this->_path,
             'this_path_ssl' => Tools::getShopDomainSsl(true, true) . __PS_BASE_URI__ . 'modules/' . $this->name . '/',
-        ));
+        ]);
+
         return $this->display(__FILE__, 'crypay_payment.tpl');
     }
-
 
     public function hookPaymentReturn($params)
     {
@@ -315,50 +312,46 @@ class Crypay extends PaymentModule
             $order = $params['order'];
             $state = $params['order']->getCurrentState();
         }
-        $customer = new Customer((int)$order->id_customer);
+        $customer = new Customer((int) $order->id_customer);
         $currency = new Currency($order->id_currency);
 
         $payment_url = $this->context->link->getModuleLink('crypay', 'redirect', [
             'id_order' => $order->id,
-            'key' => $customer->secure_key
+            'key' => $customer->secure_key,
         ]);
-
 
         if (_PS_VERSION_ < 1.7) {
             if ($state == Configuration::get('PS_OS_PAYMENT')) {
-                $this->context->smarty->assign(array(
-                    'crypay_production' => (Configuration::get('CRYPAY_TEST')) == 0,
+                $this->context->smarty->assign([
+                    'crypay_production' => Configuration::get('CRYPAY_TEST') == 0,
                     'crypay_id_order' => $order->id,
                     'crypay_reference_order' => $order->reference,
                     'crypay_total_to_pay' => Tools::displayPrice($order->total_paid, $currency, false),
-                ));
+                ]);
 
                 return $this->display(__FILE__, 'crypay_payment_success_old.tpl');
-            } else {
-                $this->context->smarty->assign(array(
-                    'crypay_production' => (Configuration::get('CRYPAY_TEST')) == 0,
-                    'crypay_id_order' => $order->id,
-                    'crypay_url_payment' => $payment_url,
-                    'crypay_reference_order' => $order->reference,
-                    'crypay_total_to_pay' => Tools::displayPrice($order->total_paid, $currency, false),
-                ));
-
-                return $this->display(__FILE__, 'crypay_payment_cancel.tpl');
             }
-        } else {
-            $this->smarty->assign(array(
-                'state' => $state,
-                'paid_state' => (int)Configuration::get('PS_OS_PAYMENT'),
-                'this_path' => $this->_path,
-                'crypay_repeat_payment_url' => $payment_url,
-                'this_path_bw' => $this->_path,
-                'this_path_ssl' => Tools::getShopDomainSsl(true, true) . __PS_BASE_URI__ . 'modules/' . $this->name . '/',
-            ));
+            $this->context->smarty->assign([
+                'crypay_production' => Configuration::get('CRYPAY_TEST') == 0,
+                'crypay_id_order' => $order->id,
+                'crypay_url_payment' => $payment_url,
+                'crypay_reference_order' => $order->reference,
+                'crypay_total_to_pay' => Tools::displayPrice($order->total_paid, $currency, false),
+            ]);
 
-            return $this->fetch('module:crypay/views/templates/hook/crypay_confirmation.tpl');
+            return $this->display(__FILE__, 'crypay_payment_cancel.tpl');
         }
-    }
+        $this->smarty->assign([
+            'state' => $state,
+            'paid_state' => (int) Configuration::get('PS_OS_PAYMENT'),
+            'this_path' => $this->_path,
+            'crypay_repeat_payment_url' => $payment_url,
+            'this_path_bw' => $this->_path,
+            'this_path_ssl' => Tools::getShopDomainSsl(true, true) . __PS_BASE_URI__ . 'modules/' . $this->name . '/',
+        ]);
 
+        return $this->fetch('module:crypay/views/templates/hook/crypay_confirmation.tpl');
+    }
 
     public function hookPaymentOptions($params)
     {
@@ -372,12 +365,12 @@ class Crypay extends PaymentModule
 
         $newOption = new PrestaShop\PrestaShop\Core\Payment\PaymentOption();
         $newOption->setCallToActionText($this->l('Crypto payment'))
-            ->setAction($this->context->link->getModuleLink($this->name, 'redirect', array(), true))
+            ->setAction($this->context->link->getModuleLink($this->name, 'redirect', [], true))
             ->setAdditionalInformation(
                 $this->context->smarty->fetch('module:crypay/views/templates/hook/crypay_intro.tpl')
             );
 
-        $payment_options = array($newOption);
+        $payment_options = [$newOption];
 
         return $payment_options;
     }
@@ -400,38 +393,38 @@ class Crypay extends PaymentModule
     public function renderForm()
     {
         $this->context->smarty->assign([
-            'crypay_notification' => $this->context->link->getModuleLink($this->name, 'callback', array(), true),
+            'crypay_notification' => $this->context->link->getModuleLink($this->name, 'callback', [], true),
         ]);
         $notification = $this->context->smarty->fetch($this->local_path . 'views/templates/admin/crypay_notification.tpl');
-        $fields_form = array(
-            'form' => array(
-                'legend' => array(
+        $fields_form = [
+            'form' => [
+                'legend' => [
                     'title' => $this->l('CryPay'),
                     'icon' => 'icon-bitcoin',
-                ),
-                'input' => array(
-                    array(
+                ],
+                'input' => [
+                    [
                         'type' => 'html',
                         'label' => $this->l('Callback URL'),
                         'html_content' => $notification,
                         'desc' => $this->l('Set this value in the payment system store settings.'),
                         'name' => 'CRYPAY_NOTIFICATION',
-                    ),
-                    array(
+                    ],
+                    [
                         'type' => 'text',
                         'label' => $this->l('Your Api Key'),
                         'name' => 'CRYPAY_API_KEY',
                         'desc' => $this->l('Your Api Key (created on CryPay)'),
                         'required' => true,
-                    ),
-                    array(
+                    ],
+                    [
                         'type' => 'text',
                         'label' => $this->l('Your Api Secret'),
                         'name' => 'CRYPAY_API_SECRET',
                         'desc' => $this->l('Your Api Secret (created on CryPay)'),
                         'required' => true,
-                    ),
-                    array(
+                    ],
+                    [
                         'type' => 'select',
                         'label' => $this->l('Test Mode'),
                         'name' => 'CRYPAY_TEST',
@@ -442,55 +435,55 @@ class Crypay extends PaymentModule
                                                 on dev.crypay.com and generate API credentials there.'
                         ),
                         'required' => true,
-                        'options' => array(
-                            'query' => array(
-                                array(
+                        'options' => [
+                            'query' => [
+                                [
                                     'id_option' => 0,
                                     'name' => 'Off',
-                                ),
-                                array(
+                                ],
+                                [
                                     'id_option' => 1,
                                     'name' => 'On',
-                                ),
-                            ),
+                                ],
+                            ],
                             'id' => 'id_option',
                             'name' => 'name',
-                        ),
-                    ),
-                ),
-                'submit' => array(
+                        ],
+                    ],
+                ],
+                'submit' => [
                     'title' => $this->l('Save'),
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $helper = new HelperForm();
         $helper->show_toolbar = false;
         $helper->table = $this->table;
-        $lang = new Language((int)Configuration::get('PS_LANG_DEFAULT'));
+        $lang = new Language((int) Configuration::get('PS_LANG_DEFAULT'));
         $helper->default_form_language = $lang->id;
         $helper->allow_employee_form_lang = (Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG')
             ? Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG') : 0);
-        $this->fields_form = array();
-        $helper->id = (int)Tools::getValue('id_carrier');
+        $this->fields_form = [];
+        $helper->id = (int) Tools::getValue('id_carrier');
         $helper->identifier = $this->identifier;
         $helper->submit_action = 'btnSubmit';
         $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
             . '&configure=' . $this->name . '&tab_module='
             . $this->tab . '&module_name=' . $this->name;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
-        $helper->tpl_vars = array(
+        $helper->tpl_vars = [
             'fields_value' => $this->getConfigFieldsValues(),
             'languages' => $this->context->controller->getLanguages(),
             'id_language' => $this->context->language->id,
-        );
+        ];
 
-        return $helper->generateForm(array($fields_form));
+        return $helper->generateForm([$fields_form]);
     }
 
     public function getConfigFieldsValues()
     {
-        return array(
+        return [
             'CRYPAY_API_KEY' => Tools::getValue(
                 'CRYPAY_API_KEY',
                 Configuration::get('CRYPAY_API_KEY')
@@ -503,7 +496,7 @@ class Crypay extends PaymentModule
                 'CRYPAY_TEST',
                 Configuration::get('CRYPAY_TEST')
             ),
-        );
+        ];
     }
 
     private function stripString($item)
