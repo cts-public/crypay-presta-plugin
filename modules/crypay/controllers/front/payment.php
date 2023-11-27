@@ -24,6 +24,10 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 /**
  * CrypayPaymentModuleFrontController
  */
@@ -35,8 +39,6 @@ class CrypayPaymentModuleFrontController extends ModuleFrontController
     public function initContent()
     {
         parent::initContent();
-
-        $id_order = Tools::getValue('id_order');
 
         $cart = $this->context->cart;
 

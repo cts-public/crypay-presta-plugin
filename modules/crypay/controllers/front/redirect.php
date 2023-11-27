@@ -24,6 +24,10 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 require_once _PS_MODULE_DIR_ . '/crypay/vendor/crypay-php/init.php';
 
 /**
