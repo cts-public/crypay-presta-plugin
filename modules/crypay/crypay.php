@@ -12,9 +12,6 @@ require_once _PS_MODULE_DIR_ . '/crypay/vendor/crypay-php/init.php';
 
 class Crypay extends PaymentModule
 {
-    private $html = '';
-    private $postErrors = [];
-
     public $api_key;
     public $api_secret;
     public $test;
@@ -214,10 +211,10 @@ class Crypay extends PaymentModule
     {
         if (Tools::isSubmit('btnSubmit')) {
             if (!Tools::getValue('CRYPAY_API_KEY')) {
-                $this->postErrors[] = $this->l('API Key is required.');
+                $this->context->controller->errors[] = $this->l('API Key is required.');
             }
             if (!Tools::getValue('CRYPAY_API_SECRET')) {
-                $this->postErrors[] = $this->l('API Secret is required.');
+                $this->context->controller->errors[] = $this->l('API Secret is required.');
             }
         }
     }
@@ -235,8 +232,6 @@ class Crypay extends PaymentModule
             );
             Configuration::updateValue('CRYPAY_TEST', Tools::getValue('CRYPAY_TEST'));
         }
-
-        $this->html .= $this->displayConfirmation($this->l('Settings updated'));
     }
 
     private function displayCrypay()
@@ -246,7 +241,6 @@ class Crypay extends PaymentModule
 
     private function displayCrypayInformation($renderForm)
     {
-        $this->html .= $this->displayCrypay();
         $this->context->controller->addCSS($this->_path . '/views/css/tabs.css', 'all');
         $this->context->controller->addJS($this->_path . '/views/js/javascript.js', 'all');
         $this->context->smarty->assign('form', $renderForm);
@@ -256,23 +250,21 @@ class Crypay extends PaymentModule
 
     public function getContent()
     {
+        $output = '';
         if (Tools::isSubmit('btnSubmit')) {
             $this->postValidation();
-            if (!count($this->postErrors)) {
+            if (empty($this->context->controller->errors)) {
                 $this->postProcess();
-            } else {
-                foreach ($this->postErrors as $err) {
-                    $this->html .= $this->displayError($err);
-                }
+                $output = $this->displayConfirmation($this->l('Settings updated'));
             }
         } else {
-            $this->html .= '<br />';
+            $output = $this->displayCrypay();
         }
 
         $renderForm = $this->renderForm();
-        $this->html .= $this->displayCrypayInformation($renderForm);
+        $output .= $this->displayCrypayInformation($renderForm);
 
-        return $this->html;
+        return $output;
     }
 
     public function hookPayment($params)
@@ -428,12 +420,7 @@ class Crypay extends PaymentModule
                         'type' => 'select',
                         'label' => $this->l('Test Mode'),
                         'name' => 'CRYPAY_TEST',
-                        'desc' => $this->l(
-                            '
-                                                To test on dev.crypay.com, turn Test Mode “On”.
-                                                Please note, for Test Mode you must create a separate account
-                                                on dev.crypay.com and generate API credentials there.'
-                        ),
+                        'desc' => $this->l('To test on dev.crypay.com, turn Test Mode “On”. Please note, for Test Mode you must create a separate account on dev.crypay.com and generate API credentials there.'),
                         'required' => true,
                         'options' => [
                             'query' => [
