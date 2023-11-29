@@ -107,6 +107,7 @@ class CrypayRedirectModuleFrontController extends ModuleFrontController
             'variableSymbol' => (string)$id_order,
             'successUrl' => $success_url,
             'failUrl' => $fail,
+            'timestamp' => time(),
         ];
 
         if ($environment) {
