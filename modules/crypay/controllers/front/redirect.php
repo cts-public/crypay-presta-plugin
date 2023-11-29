@@ -110,11 +110,9 @@ class CrypayRedirectModuleFrontController extends ModuleFrontController
             'timestamp' => time(),
         ];
 
-        if ($environment) {
-            $params['email'] = $customer->email;
-            $params['name'] = ($customer->company) ? $customer->company : $customer->firstname . ' ' . $customer->lastname;
-            $params['language'] = Language::getIsoById((int) $cart->id_lang);
-        }
+        $params['email'] = $customer->email;
+        $params['name'] = ($customer->company) ? $customer->company : $customer->firstname . ' ' . $customer->lastname;
+        $params['language'] = Language::getIsoById((int) $cart->id_lang);
 
         if ($environment) {
             $this->logInfo('send redirect params ' . json_encode($params));
