@@ -63,6 +63,24 @@ class Crypay extends PaymentModule
         }
     }
 
+    public function hookDisplayPaymentEU()
+    {
+        $payment_options = [
+            'cta_text' => $this->l('Crypto payment'),
+            'logo' => $this->getLogo(),
+            'action' => $this->context->link->getModuleLink($this->name, 'redirect', [], true)
+        ];
+
+        return $payment_options;
+    }
+
+    public function getLogo($file = 'logo.png')
+    {
+        
+        return Media::getMediaPath(_PS_MODULE_DIR_ . $this->name . '/' . $file);
+    }
+
+
     public function install()
     {
         if (!function_exists('curl_version')) {
