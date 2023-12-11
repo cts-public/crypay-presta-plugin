@@ -32,19 +32,19 @@
     <table class="table" cellspacing="0">
       <tr>
         <td><strong>{l s='Order number' mod='crypay'}</strong></td>
-        <td>{$crypay_id_order}</td>
+        <td>{$crypay_id_order|escape:'htmlall':'UTF-8'}</td>
       </tr>
       <tr>
         <td><strong>{l s='Order reference' mod='crypay'}</strong></td>
-        <td>{$crypay_reference_order}</td>
+        <td>{$crypay_reference_order|escape:'htmlall':'UTF-8'}</td>
       </tr>
       <tr>
         <td><strong>{l s='Amount to be paid' mod='crypay'}</strong></td>
-        <td>{$crypay_total_to_pay}</td>
+        <td>{$crypay_total_to_pay|escape:'htmlall':'UTF-8'}</td>
       </tr>
     </table>
 
-    <a class="btn btn-primary" href="{$crypay_url_payment}">{l s='Pay for the order' mod='crypay'}</a>
+    <a class="btn btn-primary" href="{$crypay_url_payment|escape:'htmlall':'UTF-8'}">{l s='Pay for the order' mod='crypay'}</a>
     
     <div style="clear: both;"></div>
         

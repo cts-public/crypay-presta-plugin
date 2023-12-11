@@ -16,4 +16,4 @@
 * @copyright Since 2007 PrestaShop SA and Contributors
 * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
 *}
-<input id="crypay-notification" type="text" value="{$crypay_notification}" readonly="readonly">
+<input id="crypay-notification" type="text" value="{$crypay_notification|escape:'htmlall':'UTF-8'}" readonly="readonly">

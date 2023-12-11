@@ -42,15 +42,15 @@
                 <table class="table" cellspacing="0">
                     <tr>
                         <td><strong>{l s='Order number' mod='crypay'}</strong></td>
-                        <td>{$crypay_id_order}</td>
+                        <td>{$crypay_id_order|escape:'htmlall':'UTF-8'}</td>
                     </tr>
                     <tr>
                         <td><strong>{l s='Order reference' mod='crypay'}</strong></td>
-                        <td>{$crypay_reference_order}</td>
+                        <td>{$crypay_reference_order|escape:'htmlall':'UTF-8'}</td>
                     </tr>
                     <tr>
                         <td><strong>{l s='Order amount' mod='crypay'}</strong></td>
-                        <td>{$crypay_total_to_pay}</td>
+                        <td>{$crypay_total_to_pay|escape:'htmlall':'UTF-8'}</td>
                     </tr>
                 </table>
 

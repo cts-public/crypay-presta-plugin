@@ -19,6 +19,6 @@
 <div class="alert alert-info">
     <p>
         <strong>{l s='Having trouble? ' mod='crypay'}</strong> {l s='Contact ' mod='crypay'} <a href="mailto:support@crypay.com"> {l s='support@crypay.com' mod='crypay'}</a>.
-        <a href="https://developer.crypay.com/docs/issues" target="_blank">{l s='View common issues' mod='crypay'}</a>.
+        <a href="https://dev.crypay.com/#contact" target="_blank">{l s='View common issues' mod='crypay'}</a>.
     </p>
 </div>

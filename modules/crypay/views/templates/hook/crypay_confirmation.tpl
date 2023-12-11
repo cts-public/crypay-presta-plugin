@@ -38,7 +38,7 @@
                 </div>
 
                 <p>
-                    <a class="btn btn-primary" href="{$crypay_repeat_payment_url}">{l s='Pay with cryptocurrency' mod='crypay'}</a>
+                    <a class="btn btn-primary" href="{$crypay_repeat_payment_url|escape:'htmlall':'UTF-8'}">{l s='Pay with cryptocurrency' mod='crypay'}</a>
                 </p>
 
 {*            {else}*}
