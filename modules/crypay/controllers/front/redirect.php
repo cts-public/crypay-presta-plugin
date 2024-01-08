@@ -69,7 +69,12 @@ class CrypayRedirectModuleFrontController extends ModuleFrontController
         $apiKey = Configuration::get('CRYPAY_API_KEY');
         $environment = Configuration::get('CRYPAY_TEST') == 1;
 
+        try {
         $client = new \CryPay\Client($apiKey, $environment);
+        } catch (\Exception $e) {
+            $this->logError($e->getMessage(), $cart->id);
+            Tools::redirect('index.php?controller=order&step=3');
+        }
         $client::setAppInfo('PrestashopMarketplace', $this->module->version);
 
         $customer = new Customer($cart->id_customer);
